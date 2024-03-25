@@ -10,9 +10,9 @@
   </component>
   <component name="PersistenceUnitSettings">
     <persistence-units>
-      <persistence-unit name="Default" defaultIncludeChangeLogFile="src/main/resources/db/changelog/db.changelog-master.xml">
+      <persistence-unit name="Default" defaultIncludeChangeLogFile="publisher/src/main/resources/db/changelog/db.changelog-master.xml">
         <packages>
-          <package value="by.bsuir.RV_Project" />
+          <package value="by.bsuir.publisher" />
         </packages>
       </persistence-unit>
     </persistence-units>
