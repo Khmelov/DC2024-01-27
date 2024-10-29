@@ -1,0 +1,10 @@
+{
+    "properties": [
+        {
+            "name": "rest-client.base-url",
+            "type": "java.lang.String",
+            "defaultValue": "http://localhost:24130/api/v1.0",
+            "description": "Base url for the RestClient to connect to the discussion-service"
+        }
+    ]
+}

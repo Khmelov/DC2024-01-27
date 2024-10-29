@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    
+    <parent>
+        <groupId>by.bsuir</groupId>
+        <artifactId>redis-task</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    
+    <groupId>by.bsuir</groupId>
+    <artifactId>discussion-service</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>Discussion Service</name>
+    <description>Demo project for Spring Boot</description>
+    <url/>
+    
+    <properties>
+        <ing.version>4.13.1</ing.version>
+    </properties>
+
+    <developers>
+        <developer/>
+    </developers>
+    
+    <scm>
+        <connection/>
+        <developerConnection/>
+        <tag/>
+        <url/>
+    </scm>
+    
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-cassandra</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ing.data</groupId>
+            <artifactId>cassandra-jdbc-wrapper</artifactId>
+            <version>${ing.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.liquibase.ext</groupId>
+            <artifactId>liquibase-cassandra</artifactId>
+            <version>${liquibase.version}</version>
+        </dependency>
+    </dependencies>
+</project>

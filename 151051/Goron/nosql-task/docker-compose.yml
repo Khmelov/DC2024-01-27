@@ -1,0 +1,99 @@
+services:
+  discussion-service-db:
+    image: cassandra:5.0.1
+    container_name: discussion-service-db
+    restart: unless-stopped
+    hostname: discussion-service-db
+    ports:
+      - 9042:9042
+    user: cassandra
+    environment:
+      CASSANDRA_CLUSTER_NAME: 'Distcomp Cluster'
+      CASSANDRA_KEYSPACE_NAME: distcomp
+      CASSANDRA_DC: datacenter1
+      CASSANDRA_USER: cassandra
+      CASSANDRA_PASSWORD: cassandra
+    volumes:
+      - discussion-service-db-data:/var/lib/cassandra
+    healthcheck:
+      test: ["CMD-SHELL", "cqlsh -e 'DESC KEYSPACES'"]
+      start_period: 2m
+      interval: 1m
+      timeout: 30s
+      retries: 3
+  
+  publisher-service-db:
+    image: postgres:17
+    container_name: publisher-service-db
+    hostname: publisher-service-db
+    restart: unless-stopped
+    ports:
+      - 5432:5432
+    user: postgres
+    environment:
+      POSTGRES_DB: distcomp
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_AUTH_METHOD: TRUST
+    volumes:
+      - publisher-service-db-data:/var/lib/postgresql/17/main
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready --quiet"]
+      start_period: 1m
+      interval: 45s
+      timeout: 30s
+      retries: 3
+
+  discussion-service-create-keyspace:
+    image: cassandra:5.0.1
+    container_name: discussion-service-create-keyspace
+    depends_on:
+      discussion-service-db:
+        condition: service_healthy
+    volumes:
+      - ./discussion-service/infrastructure/db/create_keyspace.cql:/docker-entrypoint-initdb.d/create_keyspace.cql
+    command: /bin/bash -c "echo Creating distcomp keyspace && cqlsh discussion-service-db -f /docker-entrypoint-initdb.d/create_keyspace.cql"
+  
+  discussion-service:
+    image: discussion-service:0.0.1-SNAPSHOT
+    container_name: discussion-service
+    restart: unless-stopped
+    hostname: discussion-service
+    ports:
+      - "24130:24130"
+    depends_on:
+      discussion-service-db:
+        condition: service_healthy
+      discussion-service-create-keyspace:
+        condition: service_started
+    build:
+      context: ./discussion-service
+      dockerfile: Dockerfile
+    environment:
+      SPRING_CASSANDRA_KEYSPACE_NAME: distcomp
+      SPRING_CASSANDRA_PORT: 9042
+      SPRING_CASSANDRA_CONTACT_POINTS: discussion-service-db
+      SPRING_CASSANDRA_LOCAL_DATACENTER: datacenter1
+      SPRING_DATASOURCE_URL: jdbc:cassandra://discussion-service-db:9042/distcomp?localdatacenter=datacenter1
+      SPRING_LIQUIBASE_URL: jdbc:cassandra://discussion-service-db:9042/distcomp?localdatacenter=datacenter1&compliancemode=Liquibase
+  
+  publisher-service:
+    image: publisher-service:0.0.1-SNAPSHOT
+    container_name: publisher-service
+    ports:
+      - "24110:24110"
+    depends_on:
+      publisher-service-db:
+        condition: service_healthy
+      discussion-service-db:
+        condition: service_healthy
+    build:
+      context: ./publisher-service
+      dockerfile: Dockerfile
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://publisher-service-db:5432/distcomp
+      REST_CLIENT_BASE_URL: http://discussion-service:24130/api/v1.0
+
+volumes:
+  publisher-service-db-data:
+  discussion-service-db-data:

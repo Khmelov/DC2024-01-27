@@ -1,0 +1,60 @@
+server:
+  port: 24110
+  servlet:
+    context-path: /api/v1.0    
+
+logging:
+  level:
+    "[org.springframework.cache]": DEBUG
+    "[org.springframework.boot.autoconfigure.cache]": DEBUG
+
+spring:
+  application:
+    name: publisher-service
+
+  data.redis:
+    host: localhost
+    port: 6379
+
+  cache:
+    type: redis
+    redis:
+      time-to-live: 60000
+
+  jpa:
+    hibernate.ddl-auto: none
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/distcomp
+    username: postgres
+    password: postgres
+
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.xml
+
+  kafka:
+    bootstrap-servers:
+      localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        "[spring.json.type.mapping]": RequestTopicMessage:by.bsuir.publisherservice.client.discussionservice.kafka.message.RequestTopicMessage
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        "[spring.json]":
+            "[type.mapping]": 
+              ResponseTopicMessage:by.bsuir.publisherservice.client.discussionservice.kafka.message.ResponseTopicMessage
+            "[trusted.packages]":
+              by.bsuir.discussionservice.kafka.message.*,
+              by.bsuir.publisherservice.client.discussionservice.kafka.message.*
+
+topic:
+  news-message:
+    request: InTopic
+    response: OutTopic
+
+rest-client:
+  base-url: http://localhost:24130/api/v1.0

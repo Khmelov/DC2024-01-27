@@ -1,0 +1,16 @@
+{
+  "properties": [
+    {
+      "name": "topic.news-message.request",
+      "type": "java.lang.String",
+      "defaultValue": "news-message.request",
+      "description": "Name of the kafka topic where to send/listen news message requests"
+    },
+    {
+      "name": "topic.news-message.response",
+      "type": "java.lang.String",
+      "defaultValue": "news-message.response",
+      "description": "Name of the kafka topic where to send/listen news message responses"
+    }
+  ]
+}
