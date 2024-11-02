@@ -5,4 +5,5 @@ type IDAO interface {
 	Save() error
 	Find(uint) error
 	Delete()
+	RedisKey() string
 }

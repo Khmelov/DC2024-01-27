@@ -11,6 +11,10 @@ type Config struct {
 	DBPort     int    `mapstructure:"db_port"`
 	DBUser     string `mapstructure:"db_user"`
 	DBPassword string `mapstructure:"db_password"`
+
+	NoSqlDBName string `mapstructure:"nosql_db_name"`
+	NoSqlDBHost string `mapstructure:"nosql_db_host"`
+	NoSqlDBPort int    `mapstructure:"nosql_db_port"`
 }
 
 var staticConfig Config

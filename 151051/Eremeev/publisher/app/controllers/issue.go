@@ -15,7 +15,7 @@ func GetIssues(c *gin.Context) ([]domain.Issue, error) {
 }
 
 func GetIssue(c *gin.Context, req *dto.SingleRecordRequest) (domain.IDAO, error) {
-	return BaseGetEntity(c, req, &domain.Issue{})
+	return BaseGetEntity(c, req, &domain.Issue{ID: req.ID})
 }
 
 func PostIssues(c *gin.Context, req *dto.CreateIssueRequest) (domain.IDAO, error) {

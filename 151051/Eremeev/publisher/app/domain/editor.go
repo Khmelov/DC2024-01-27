@@ -4,6 +4,7 @@ import (
 	e "DC-eremeev/app/errors"
 	"DC-eremeev/db"
 	"errors"
+	"fmt"
 
 	"gorm.io/gorm"
 )
@@ -49,4 +50,8 @@ func (editor *Editor) Find(id uint) error {
 
 func (editor *Editor) Delete() {
 	db.Connection().Delete(&Editor{}, editor.ID)
+}
+
+func (editor *Editor) RedisKey() string {
+	return fmt.Sprintf("editor_%d", editor.ID)
 }

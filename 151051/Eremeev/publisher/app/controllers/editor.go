@@ -15,7 +15,7 @@ func GetEditors(c *gin.Context) ([]domain.Editor, error) {
 }
 
 func GetEditor(c *gin.Context, req *dto.SingleRecordRequest) (domain.IDAO, error) {
-	return BaseGetEntity(c, req, &domain.Editor{})
+	return BaseGetEntity(c, req, &domain.Editor{ID: req.ID})
 }
 
 func PostEditor(c *gin.Context, req *dto.CreateEditorRequest) (domain.IDAO, error) {

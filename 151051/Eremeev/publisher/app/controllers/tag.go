@@ -15,7 +15,7 @@ func GetTags(c *gin.Context) ([]domain.Tag, error) {
 }
 
 func GetTag(c *gin.Context, req *dto.SingleRecordRequest) (domain.IDAO, error) {
-	return BaseGetEntity(c, req, &domain.Tag{})
+	return BaseGetEntity(c, req, &domain.Tag{ID: req.ID})
 }
 
 func PostTags(c *gin.Context, req *dto.CreateTagRequest) (domain.IDAO, error) {

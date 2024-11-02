@@ -5,17 +5,14 @@ import (
 
 	"DC-eremeev/app/domain"
 	"DC-eremeev/app/dto"
-	"DC-eremeev/db"
 )
 
 func GetPosts(c *gin.Context) ([]domain.Post, error) {
-	var posts []domain.Post
-	db.Connection().Find(&posts)
-	return posts, nil
+	return domain.GetAllPosts()
 }
 
 func GetPost(c *gin.Context, req *dto.SingleRecordRequest) (domain.IDAO, error) {
-	return BaseGetEntity(c, req, &domain.Post{})
+	return BaseGetEntity(c, req, &domain.Post{ID: req.ID})
 }
 
 func PostPosts(c *gin.Context, req *dto.CreatePostRequest) (domain.IDAO, error) {

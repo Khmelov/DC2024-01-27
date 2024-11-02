@@ -3,3 +3,7 @@ db_host: localhost
 db_port: 5432
 db_user: postgres
 db_password: postgres
+
+nosql_db_name: distcomp
+nosql_db_host: localhost
+nosql_db_port: 9042

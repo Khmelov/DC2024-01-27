@@ -4,6 +4,8 @@ import (
 	"DC-eremeev/app"
 	"DC-eremeev/config"
 	"DC-eremeev/db"
+	"DC-eremeev/ekafka"
+	"DC-eremeev/eredis"
 	"flag"
 	"log"
 )
@@ -18,6 +20,13 @@ func main() {
 	}
 
 	db.Init(*dropSchema)
+
+	// Test ERedis
+	eredis.TestConnection()
+
+	// Init OutTopic consumer
+	ekafka.WithCachedLocalConsumer(ekafka.OutTopic)
+	defer ekafka.WithCachedLocalConsumer(ekafka.OutTopic).Close()
 
 	app.Run()
 }
