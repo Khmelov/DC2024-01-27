@@ -1,0 +1,6 @@
+@Task330.Discussion_HostAddress = http://localhost:5251
+
+GET {{Task330.Discussion_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,33 +1,33 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.5.002.0
+# Visual Studio Version 2022
+VisualStudioVersion = 2022
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lab1", "Lab1\Lab1.csproj", "{4AAD1949-293E-4117-97CB-24230161AED0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Task310", "Task310\Task310.csproj", "{4AAD1949-293E-4117-97CB-24230161AED0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lab2", "Lab2\Lab2.csproj", "{54287AC8-DA11-4255-8CEC-282851C491C6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Task320", "Task320\Task320.csproj", "{54287AC8-DA11-4255-8CEC-282851C491C6}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lab3", "Lab3", "{7E5B6DDD-275B-4281-81F1-5C9EB2ED06BE}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Task330", "Task330", "{7E5B6DDD-275B-4281-81F1-5C9EB2ED06BE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lab3.Discussion", "Lab3\Lab3.Discussion\Lab3.Discussion.csproj", "{72C69731-DC1F-4963-9D0D-74689511CE54}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Task330.Discussion", "Task330\Task330.Discussion\Task330.Discussion.csproj", "{72C69731-DC1F-4963-9D0D-74689511CE54}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lab3.Publisher", "Lab3\Lab3.Publisher\Lab3.Publisher.csproj", "{685B90DF-C558-4B81-8E06-F74A530D86FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Task330.Publisher", "Task330\Task330.Publisher\Task330.Publisher.csproj", "{685B90DF-C558-4B81-8E06-F74A530D86FC}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lab4", "Lab4", "{C7F91CDA-11DD-464D-86AD-17D166B741BD}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Task340", "Task340", "{C7F91CDA-11DD-464D-86AD-17D166B741BD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lab4.Discussion", "Lab4\Lab4.Discussion\Lab4.Discussion.csproj", "{FDAFCE38-E6CA-413F-A85F-B7CFA210F590}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Task340.Discussion", "Task340\Task340.Discussion\Task340.Discussion.csproj", "{FDAFCE38-E6CA-413F-A85F-B7CFA210F590}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lab4.Messaging", "Lab4\Lab4.Messaging\Lab4.Messaging.csproj", "{20A82A60-7E10-4905-AA87-AE139437CCD7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Task340.Messaging", "Task340\Task340.Messaging\Task340.Messaging.csproj", "{20A82A60-7E10-4905-AA87-AE139437CCD7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lab4.Publisher", "Lab4\Lab4.Publisher\Lab4.Publisher.csproj", "{A5A82936-0107-428B-AD66-C9CEE62481B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Task340.Publisher", "Task340\Task340.Publisher\Task340.Publisher.csproj", "{A5A82936-0107-428B-AD66-C9CEE62481B6}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lab5", "Lab5", "{50F67A7C-37D8-4277-8BE7-E7FC79F6AD84}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Task350", "Task350", "{50F67A7C-37D8-4277-8BE7-E7FC79F6AD84}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lab5.Discussion", "Lab5\Lab5.Discussion\Lab5.Discussion.csproj", "{7AC35DBA-9EB8-4E62-BF8B-0844A5CD5B50}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Task350.Discussion", "Task350\Task350.Discussion\Task350.Discussion.csproj", "{7AC35DBA-9EB8-4E62-BF8B-0844A5CD5B50}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lab5.Messaging", "Lab5\Lab5.Messaging\Lab5.Messaging.csproj", "{51CB2B57-598B-4E92-A5BC-0FD5EFE0436B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Task350.Messaging", "Task350\Task350.Messaging\Task350.Messaging.csproj", "{51CB2B57-598B-4E92-A5BC-0FD5EFE0436B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lab5.Publisher", "Lab5\Lab5.Publisher\Lab5.Publisher.csproj", "{1BD3FCC9-5D10-41D8-9BC0-625BEDE7BFBA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Task350.Publisher", "Task350\Task350.Publisher\Task350.Publisher.csproj", "{1BD3FCC9-5D10-41D8-9BC0-625BEDE7BFBA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
