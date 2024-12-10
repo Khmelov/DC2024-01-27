@@ -1,0 +1,47 @@
+spring:
+  application:
+    name: publisher
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+  datasource:
+    url: jdbc:postgresql://localhost:5432/distcomp
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/changelog-master.xml
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring:
+          json:
+            type:
+              mapping: KafkaRequestTo:by.bsuir.publisher.client.discussion.kafka.dto.KafkaRequestTo
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring:
+          json:
+            type:
+              mapping: KafkaResponseTo:by.bsuir.publisher.client.discussion.kafka.dto.KafkaResponseTo
+            trusted:
+              packages: "*"
+
+rest-client:
+  base-url: http://localhost:24130/api/v1.0
+
+topic:
+  tweet-note:
+    request: InTopic
+    response: OutTopic
+
+server:
+  port: 24110
+  servlet:
+    context-path: /api/v1.0

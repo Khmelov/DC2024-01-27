@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: TaskJPA
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+  datasource:
+    url: jdbc:postgresql://localhost:5432/distcomp
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/changelog-master.xml
+
+server:
+  port: 24110
+  servlet:
+    context-path: /api/v1.0

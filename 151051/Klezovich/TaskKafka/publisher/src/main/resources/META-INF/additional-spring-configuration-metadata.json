@@ -1,0 +1,20 @@
+{"properties": [
+  {
+    "name": "rest-client.base-url",
+    "type": "java.lang.String",
+    "defaultValue": "http://localhost:24130/api/v1.0",
+    "description": "Base url for the RestClient to connect to the discussion"
+  },
+  {
+    "name": "topic.tweet-note.request",
+    "type": "java.lang.String",
+    "defaultValue": "tweet-note.request",
+    "description": "Name of the kafka topic where to send/listen tweet-note requests"
+  },
+  {
+    "name": "topic.tweet-note.response",
+    "type": "java.lang.String",
+    "defaultValue": "tweet-note.response",
+    "description": "Name of the kafka topic where to send/listen tweet-note responses"
+  }
+]}

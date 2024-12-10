@@ -1,0 +1,162 @@
+services:
+  redis:
+    container_name: redis
+    image: redis:7.4.1
+    hostname: redis
+    ports:
+      - 6379:6379
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping"]
+      start_period: 15s
+      interval: 30s
+      timeout: 15s
+      retries: 3
+
+  kafka:
+    image: apache/kafka:3.9.0-rc2
+    container_name: kafka
+    restart: unless-stopped
+    hostname: kafka
+    ports:
+      - 9092:9092
+    depends_on:
+      redis:
+        condition: service_healthy
+    environment:
+      KAFKA_PROCESS_ROLES: broker, controller
+      KAFKA_BROKER_ID: 1
+      KAFKA_NODE_ID: 1
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_LISTENERS:
+        BROKER://kafka:9092,
+        CONTROLLER://kafka:9093,
+        INTERNAL://kafka:29092
+      KAFKA_ADVERTISED_LISTENERS:
+        BROKER://kafka:9092,
+        INTERNAL://kafka:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: BROKER:PLAINTEXT, CONTROLLER:PLAINTEXT, INTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LOG_DIRS: /var/lib/kafka/data
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+    volumes:
+      - kafka-data:/var/lib/kafka/data
+    healthcheck:
+      test: ["CMD-SHELL", "nc -zv kafka 9092"]
+      start_period: 1m
+      interval: 1m
+      timeout: 30s
+      retries: 3
+
+  publisher-db:
+    image: postgres:15
+    container_name: publisher-db
+    depends_on:
+      kafka:
+        condition: service_healthy
+    hostname: publisher-db
+    restart: unless-stopped
+    ports:
+      - 5432:5432
+    user: postgres
+    environment:
+      POSTGRES_DB: distcomp
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_AUTH_METHOD: TRUST
+    volumes:
+      - publisher-db-data:/var/lib/postgresql/17/main
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready --quiet"]
+      start_period: 1m
+      interval: 1m
+      timeout: 30s
+      retries: 3
+
+  publisher:
+    image: publisher:0.0.1-SNAPSHOT
+    container_name: publisher
+    restart: unless-stopped
+    ports:
+      - "24110:24110"
+    depends_on:
+      publisher-db:
+        condition: service_healthy
+    build:
+      context: ./publisher
+      dockerfile: Dockerfile
+    environment:
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATASOURCE_URL: jdbc:postgresql://publisher-db:5432/distcomp
+    healthcheck:
+      test: ["CMD-SHELL", "nc -zv publisher 24110"]
+      start_period: 1m
+      interval: 1m
+      timeout: 30s
+      retries: 3
+
+  discussion-db:
+    image: cassandra:5.0.1
+    container_name: discussion-db
+    depends_on:
+      publisher:
+        condition: service_healthy
+    restart: unless-stopped
+    hostname: discussion-db
+    ports:
+      - 9042:9042
+    user: cassandra
+    environment:
+      CASSANDRA_CLUSTER_NAME: 'Distcomp Cluster'
+      CASSANDRA_KEYSPACE_NAME: distcomp
+      CASSANDRA_DC: datacenter1
+      CASSANDRA_USER: cassandra
+      CASSANDRA_PASSWORD: cassandra
+    volumes:
+      - discussion-db-data:/var/lib/cassandra
+    healthcheck:
+      test: ["CMD-SHELL", "cqlsh -e 'DESC KEYSPACES'"]
+      start_period: 2m
+      interval: 1m
+      timeout: 30s
+      retries: 3
+
+  discussion-create-keyspace:
+    image: cassandra:5.0.1
+    container_name: discussion-create-keyspace
+    depends_on:
+      discussion-db:
+        condition: service_healthy
+    volumes:
+      - ./discussion/infrastructure/db/create_keyspace.cql:/docker-entrypoint-initdb.d/create_keyspace.cql
+    command: /bin/bash -c "echo Creating distcomp keyspace && cqlsh discussion-db -f /docker-entrypoint-initdb.d/create_keyspace.cql"
+
+  discussion:
+    image: discussion:0.0.1-SNAPSHOT
+    container_name: discussion
+    restart: unless-stopped
+    hostname: discussion
+    ports:
+      - "24130:24130"
+    depends_on:
+      discussion-create-keyspace:
+        condition: service_started
+    build:
+      context: ./discussion
+      dockerfile: Dockerfile
+    environment:
+      SPRING_CASSANDRA_KEYSPACE_NAME: distcomp
+      SPRING_CASSANDRA_PORT: 9042
+      SPRING_CASSANDRA_CONTACT_POINTS: discussion-db
+      SPRING_CASSANDRA_LOCAL_DATACENTER: datacenter1
+      SPRING_DATASOURCE_URL: jdbc:cassandra://discussion-db:9042/distcomp?localdatacenter=datacenter1
+      SPRING_LIQUIBASE_URL: jdbc:cassandra://discussion-db:9042/distcomp?localdatacenter=datacenter1&compliancemode=Liquibase
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+
+volumes:
+  publisher-db-data:
+  discussion-db-data:
+  kafka-data:

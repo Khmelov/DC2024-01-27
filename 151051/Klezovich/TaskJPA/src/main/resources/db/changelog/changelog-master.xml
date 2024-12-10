@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.29.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1731271659349-1" author="klezo">
+        <createSequence incrementBy="50" sequenceName="tbl_note_seq" startValue="1"/>
+    </changeSet>
+    <changeSet id="1731271659349-2" author="klezo">
+        <createSequence incrementBy="50" sequenceName="tbl_sticker_seq" startValue="1"/>
+    </changeSet>
+    <changeSet id="1731271659349-3" author="klezo">
+        <createSequence incrementBy="50" sequenceName="tbl_tweet_seq" startValue="1"/>
+    </changeSet>
+    <changeSet id="1731271659349-4" author="klezo">
+        <createSequence incrementBy="50" sequenceName="tbl_user_seq" startValue="1"/>
+    </changeSet>
+    <changeSet id="1731271659349-5" author="klezo">
+        <createTable tableName="tbl_note">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="tbl_note_pkey"/>
+            </column>
+            <column name="tweet_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="content" type="VARCHAR(2048)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1731271659349-6" author="klezo">
+        <createTable tableName="tbl_sticker">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="tbl_sticker_pkey"/>
+            </column>
+            <column name="name" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1731271659349-7" author="klezo">
+        <createTable tableName="tbl_tweet">
+            <column name="created" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="tbl_tweet_pkey"/>
+            </column>
+            <column name="modified" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="content" type="VARCHAR(2048)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1731271659349-8" author="klezo">
+        <createTable tableName="tbl_user">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="tbl_user_pkey"/>
+            </column>
+            <column name="firstname" type="VARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastname" type="VARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="login" type="VARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="VARCHAR(128)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1731271659349-9" author="klezo">
+        <addUniqueConstraint columnNames="name" constraintName="tbl_sticker_name_key" tableName="tbl_sticker"/>
+    </changeSet>
+    <changeSet id="1731271659349-10" author="klezo">
+        <addUniqueConstraint columnNames="title" constraintName="tbl_tweet_title_key" tableName="tbl_tweet"/>
+    </changeSet>
+    <changeSet id="1731271659349-11" author="klezo">
+        <addUniqueConstraint columnNames="login" constraintName="tbl_user_login_key" tableName="tbl_user"/>
+    </changeSet>
+    <changeSet id="1731271659349-12" author="klezo">
+        <addForeignKeyConstraint baseColumnNames="tweet_id" baseTableName="tbl_note"
+                                 constraintName="fkibunr044ny0p1yreo0buatq8y" onDelete="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="tbl_tweet"/>
+    </changeSet>
+    <changeSet id="1731271659349-13" author="klezo">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="tbl_tweet"
+                                 constraintName="fkngn00eqtvqxgihcywktfhf11q" onDelete="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="tbl_user"/>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: TaskREST
+  profiles:
+    active: in-memory-repositories
+server:
+  port: 24110
+  servlet:
+    context-path: /api/v1.0
